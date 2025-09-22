@@ -1,6 +1,6 @@
-import User from '../models/User'
 import type { ControllerContext } from "elysia"
-import { db } from '../utils/db.utils'
+import { db } from '@/utils/db.utils'
+import User from '@/models/User'
 
 export class UserController {
     // ========================================>

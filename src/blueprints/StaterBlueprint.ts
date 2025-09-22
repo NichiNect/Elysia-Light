@@ -1,4 +1,4 @@
-import { blueprint } from "../utils/commands/runner/blueprint";
+import { blueprint } from "@/utils/commands/runner/blueprint";
 
 export class StarterBlueprint {
   async run() {

@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia'
-import { routes } from './routes'
-import { db } from "./utils/db.utils"
-import { Controller } from './utils/controller.utils'
+import { Controller } from '@/utils/controller.utils'
+import { routes } from '@/routes'
+import { db } from "@/utils/db.utils"
 
 
 export const app  =  new Elysia()
