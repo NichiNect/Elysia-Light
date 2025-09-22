@@ -1,0 +1,7 @@
+export default async function {{ name }}() {
+    // =========================>
+    // ## Seed the application's database
+    // =========================>
+    
+    // something amazing
+}

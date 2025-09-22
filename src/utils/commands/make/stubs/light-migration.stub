@@ -1,0 +1,22 @@
+import { Migration } from 'sutando';
+
+export default class {{ className }} extends Migration 
+{
+  // =========================>
+  // ## Run the migration
+  // =========================>
+  async up(schema: any) {
+    await schema.createTable('{{ tableName }}', (table: any) => {
+      table.increments('id').primary()
+{{ schemas }}
+      table.timestamps(true, true)
+    });
+  }
+
+  // =========================>
+  // ## Reverse the migrations.
+  // =========================>
+  async down(schema: any) {
+    await schema.dropTableIfExists('{{ tableName }}');
+  }
+}

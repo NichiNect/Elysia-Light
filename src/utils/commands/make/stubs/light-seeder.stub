@@ -1,0 +1,11 @@
+import {{ model }} from "@/models/{{ model }}";
+
+export default async function {{ name }}Seeder() {
+    // =========================>
+    // ## Seed the application's database
+    // =========================>
+    
+    await {{ name }}.query().insert([
+      {{ seeders }}
+    ]);
+}

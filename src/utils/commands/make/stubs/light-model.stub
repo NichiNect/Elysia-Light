@@ -1,0 +1,27 @@
+import { Model } from '@/utils/model.utils'
+{{ import }}
+
+export default class {{ name }} extends Model {
+    // =====================>
+    // ## Fillable
+    // =====================>
+    fillable    =  [{{ fillable }}]
+
+
+    // ====================>
+    // ## Selectable
+    // ====================>
+    selectable  =  [{{ selectable }}]
+
+
+    // ====================>
+    // ## Searchable
+    // ====================>
+    searchable  =  [{{ searchable }}]
+
+
+    // =========================>
+    // ## Relations
+    // =========================>
+    {{ relations }}
+}

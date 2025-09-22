@@ -40,3 +40,12 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+#ENV
+.env
+.env.local
+.env.dev
+.env.production
+
+#IDE
+.vscode
