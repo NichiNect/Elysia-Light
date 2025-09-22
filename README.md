@@ -52,7 +52,7 @@ bun light migrate
 ### Make Seeder
 
 ```
-bun make:seeder {name}
+bun light make:seeder {name}
 ```
 
 ### Run Seeder
