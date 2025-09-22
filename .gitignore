@@ -41,11 +41,14 @@ yarn-error.log*
 package-lock.json
 **/*.bun
 
-#ENV
+# ENV
 .env
 .env.local
 .env.dev
 .env.production
 
-#IDE
+# IDE
 .vscode
+
+# Storage
+/storage
