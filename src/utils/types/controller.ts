@@ -22,5 +22,6 @@ declare module "elysia" {
         responseSuccess  :  (data: any, message?: string) => any;
         uploadFile       :  (file: File, folder?: string) => Promise<string>;
         deleteFile       :  (filePath: string) => void;
+        user            ?:  any
     }
 }
