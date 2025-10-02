@@ -6,7 +6,7 @@ Bun & Elysia stater kit for API Service Development with CRUD Generation, API Se
 
 ## Version Elysia ^ 1.4
 
-<p align="center"><a href="https://elysiajs.com/" target="_blank"><img src="https://elysiajs.com/assets/elysia_v.webp" width="100%" alt="Elysia Banner"></a></p>
+<p align="center"><a href="https://elysiajs.com/" target="_blank"><img src="https://elysiajs.com/assets/elysia_v.webp" width="70%" alt="Elysia Banner"></a></p>
 
 <br>
 <br>
