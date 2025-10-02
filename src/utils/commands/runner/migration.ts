@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import path from "path";
-import { db } from '../../../utils/db.utils'
+import { db } from '@/utils/db.utils'
 import fs from "fs";
 import { Client } from "pg";
 

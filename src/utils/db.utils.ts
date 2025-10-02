@@ -10,7 +10,7 @@ sutando.addConnection({
     port      :  Number(process.env.DB_PORT)  ||  5432,
     user      :  process.env.DB_USERNAME      ||  'postgres',
     password  :  process.env.DB_PASSWORD      ||  'password',
-    database  :  process.env.DB_DATABASE      ||  'db_light',
+    database  :  process.env.DB_DATABASE      ||  'db_elysia_light',
   },
   migrations: {
     directory: "./database/migrations",

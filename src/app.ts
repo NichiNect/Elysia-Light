@@ -1,10 +1,12 @@
 import { Elysia } from 'elysia'
+import { CorsMiddleware } from '@/utils/middleware.utils'
 import { Controller } from '@/utils/controller.utils'
-import { routes } from '@/routes'
 import { db } from "@/utils/db.utils"
+import { routes } from '@/routes'
 
 
 export const app  =  new Elysia()
+    .use(CorsMiddleware)
     .use(Controller)
     .use(routes)
     
