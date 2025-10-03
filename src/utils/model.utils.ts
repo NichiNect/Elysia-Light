@@ -1,5 +1,6 @@
 import { status } from "elysia"
-import { Model as SutandoModel, ModelNotFoundError } from "sutando"
+import { Model as SutandoModel, ModelNotFoundError, Builder as QueryBuilder, Builder } from "sutando"
+import { cache, redis } from "./cache.utils"
 
 export class Model extends SutandoModel {
   // ===============================>
@@ -152,4 +153,71 @@ export class Model extends SutandoModel {
       }
     };
   }
+
+  // ===============================>
+  // ## Override query methods with cache
+  // ===============================>
+  // static queryWithCache<T extends SutandoModel>(this: { new (): T }): CachedQueryBuilder<T> {
+  //   return new CachedQueryBuilder<T>(this)
+  // }
+
+  // async update(...args: any[]) {
+  //   const result = await super.update(...args)
+  //   await cache.clearCache((this.constructor as any).name)
+  //   return result
+  // }
+
+  // async delete(...args: any[]) {
+  //   const result = await super.delete(...args)
+  //   await cache.clearCache((this.constructor as any).name)
+  //   return result
+  // }
 }
+
+// class CachedQueryBuilder<T extends SutandoModel> extends Builder<T> {
+//   private cacheKey: string | null = null
+//   private cacheTtl: number = 60
+
+//   // aktifkan cache di query tertentu
+//   cache(key: string, ttl = 60) {
+//     this.cacheKey = key
+//     this.cacheTtl = ttl
+//     return this
+//   }
+
+//   async get<T = any>(columns?: string[]) {
+//     if (this.cacheKey) {
+//       const cached = await redis.get(this.cacheKey)
+//       if (cached) return JSON.parse(cached)
+
+//       const result = await super.get<T>(columns)
+//       await redis.setex(this.cacheKey, this.cacheTtl, JSON.stringify(result))
+//       return result
+//     }
+//     return super.get<T>(columns)
+//   }
+
+//   async first<T = any>(columns?: string[]) {
+//     if (this.cacheKey) {
+//       const cached = await redis.get(this.cacheKey)
+//       if (cached) return JSON.parse(cached)
+
+//       const result = await super.first<T>(columns)
+//       await redis.setex(this.cacheKey, this.cacheTtl, JSON.stringify(result))
+//       return result
+//     }
+//     return super.first<T>(columns)
+//   }
+
+//   async paginate(page: number = 1, perPage: number = 15) {
+//     if (this.cacheKey) {
+//       const cached = await redis.get(this.cacheKey)
+//       if (cached) return JSON.parse(cached)
+
+//       const result = await super.paginate(page, perPage)
+//       await redis.setex(this.cacheKey, this.cacheTtl, JSON.stringify(result))
+//       return result
+//     }
+//     return super.paginate(page, perPage)
+//   }
+// }
