@@ -4,7 +4,7 @@ import makeModelCommand from "./make/basic-model";
 import makeMigrationCommand from "./make/basic-migration";
 import makeSeederCommand from "./make/basic-seeder";
 import makeLightControllerCommand from "./make/light-controller";
-import migrateCommand from "./runner/migration";
+import { migrateCommand, migrateFreshCommand } from "./runner/migration";
 import seederCommand from "./runner/seeder";
 import makeLightModelCommand from "./make/light-model";
 import { blueprintCommand } from "./runner/blueprint";
@@ -23,6 +23,7 @@ program.addCommand(makeSeederCommand);
 program.addCommand(makeLightControllerCommand);
 program.addCommand(makeLightModelCommand);
 program.addCommand(migrateCommand);
+program.addCommand(migrateFreshCommand);
 program.addCommand(seederCommand);
 program.addCommand(blueprintCommand);
 

@@ -1,12 +1,13 @@
-import { Migration, SchemaBuilder } from 'sutando';
+import { db } from '@/utils/db.utils';
+import { Migration } from 'sutando';
 
 export default class AddUsersTable extends Migration 
 {
   // =========================>
   // ## Run the migration
   // =========================>
-  async up(schema: SchemaBuilder) {
-    await schema.createTable('users', (table) => {
+  async up() {
+    await db.schema.createTable('users', (table) => {
       table.increments('id').primary()
       table.string('name').notNullable()
       table.string('email').unique().notNullable()
@@ -14,7 +15,7 @@ export default class AddUsersTable extends Migration
       table.timestamps(true, true)
     });
 
-    await schema.createTable('personal_access_tokens', (table) => {
+    await db.schema.createTable('personal_access_tokens', (table) => {
       table.increments('id').primary()
       table.integer("user_id").unsigned().index().notNullable()
       table.string('token').unique().notNullable()

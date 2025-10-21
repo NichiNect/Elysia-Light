@@ -559,7 +559,7 @@ async function askChoice(message: string, choices: string[]): Promise<string> {
 // ## Blueprint runner command
 // =====================================>
 export const blueprintCommand = new Command("blueprint")
-  .argument("[blueprint]", "Nama blueprint yang ingin dijalankan")
+  .argument("[blueprint]", "Name of blueprint")
   .description("Run blueprint generation")
   .action(async (blueprint?: string) => {
     if (blueprint) {
