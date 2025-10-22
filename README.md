@@ -49,6 +49,12 @@ bun light make:migration {name}
 bun light migrate
 ```
 
+### Run Fresh Migration
+
+```
+bun light migrate:fresh
+```
+
 ### Make Seeder
 
 ```

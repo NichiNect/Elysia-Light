@@ -9,14 +9,29 @@ export const redis = new Redis({
 
 
 export const cache = {
-  async makeCacheKey(keyPrefix: string, db: any, method: string): Promise<string> {
-    const sql = db.toSQL()
-    return `db:${keyPrefix}:${method}:${sql.sql}:${JSON.stringify(sql.bindings)}`
+  makeKey(type: string, prefix: string, query: any): string {
+    const keyParts = typeof query === "object" ? JSON.stringify(query) : String(query);
+    return `${type}:${prefix}:${Buffer.from(keyParts).toString("base64")}`;
+  },
+  
+  async get<T>(key: string): Promise<T | null> {
+    const cached = await redis.get(key);
+    if (!cached) return null;
+    try {
+      return JSON.parse(cached) as T;
+    } catch {
+      return null;
+    }
   },
 
-  async clearCache(keyPrefix: string) {
-    const prefix = `db:${keyPrefix}:*`
-    const keys = await redis.keys(prefix)
+  async set(key: string, value: any, expired: number): Promise<void> {
+    const ttl = expired ?? 60; 
+    await redis.set(key, JSON.stringify(value), "EX", ttl);
+  },
+
+  async clear(type: string, prefix: string) {
+    const keyPrefix = `${type}:${prefix}:*`
+    const keys = await redis.keys(keyPrefix)
     if (keys.length) await redis.del(keys)
   }
 }

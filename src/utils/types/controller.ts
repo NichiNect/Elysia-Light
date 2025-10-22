@@ -16,12 +16,13 @@ declare module "elysia" {
             message   ?:  string,
             columns   ?:  string[]
         ) => { status: number; body: any };
-        validation       :  (rules: any) => any;
-        responseError    :  (...args: any[]) => any;
-        responseSaved    :  (data: any, message?: string) => any;
-        responseSuccess  :  (data: any, message?: string) => any;
-        uploadFile       :  (file: File, folder?: string) => Promise<string>;
-        deleteFile       :  (filePath: string) => void;
-        user            ?:  any
+        validation              :  (rules: any) => any;
+        responseError           :  (...args: any[]) => any;
+        responseErrorValidation :  (errors: Record<string, string[]>) => any;
+        responseSaved           :  (data: any, message?: string) => any;
+        responseSuccess         :  (data: any, message?: string) => any;
+        uploadFile              :  (file: File, folder?: string) => Promise<string>;
+        deleteFile              :  (filePath: string) => void;
+        user                   ?:  any
     }
 }

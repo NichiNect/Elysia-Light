@@ -34,6 +34,18 @@ export const Controller = (app: Elysia) => app.derive(({ query, body, status }) 
 
 
   // ====================================>
+  // ## Response error validation
+  // ====================================>
+  responseErrorValidation: (errors: Record<string, string[]>) => {
+      throw status(422, {
+          message: "Error: Unprocessable Entity!",
+          errors: errors,
+      })
+  },
+
+
+
+  // ====================================>
   // ## Response error
   // ====================================>
   responseError: (error: string, section?: string, message?: string, debug = process.env.APP_DEBUG) => {

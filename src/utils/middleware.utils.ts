@@ -16,7 +16,7 @@ export const AuthMiddleware = (app: Elysia) => app.derive(async ({ request }) =>
     }
 
     const bearer = authHeader.substring(7).trim()
-    const result = await Auth.verifyPersonalToken(bearer)
+    const result = await Auth.verifyAccessToken(bearer)
 
     if (!result || !result.user) {
         throw status(401, {

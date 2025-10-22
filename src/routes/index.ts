@@ -10,10 +10,12 @@ export const routes = (app: Elysia) => app.group('/api', (route) => {
     route.get('/', BaseController.index)
     
     route.post('/login', AuthController.login)
+    route.post('/register', AuthController.register)
     
-    // route.use(AuthMiddleware)
+    route.use(AuthMiddleware)
     
     route.get('/me', AuthController.me)
+    route.post('/verify', AuthController.verify)
 
     api(route, "/users", UserController);
 
