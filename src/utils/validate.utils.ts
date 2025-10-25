@@ -1,4 +1,5 @@
 import validator from "validator"
+import { db } from "./db.utils"
 
 // ==========================>
 // ## Rules of validation
@@ -20,6 +21,8 @@ type RuleName =
   | "same"
   | "different"
   | "regex"
+  | "unique"
+  | "exists"
 
 export type Rules = Record<string, string>
 
@@ -29,15 +32,34 @@ export interface ValidationResult {
 }
 
 
+// ==================================>
+// ## Payload nested field
+// ==================================>
+function getNestedValue(obj: any, path: string): any {
+  if (!obj || typeof obj !== "object") return undefined
+
+  const normalizedPath = path
+    .replace(/\[(\w+)\]/g, '.$1')
+    .replace(/\['([^']+)'\]/g, '.$1')
+    .replace(/\["([^"]+)"\]/g, '.$1')
+
+  return normalizedPath.split('.').reduce((acc, key) => {
+    if (acc && Object.prototype.hasOwnProperty.call(acc, key)) {
+      return acc[key]
+    }
+    return undefined
+  }, obj)
+}
+
 
 // ==================================>
 // ## Check validate field from rules
 // ==================================>
-export function validate(data: Record<string, any>, rules: Rules): ValidationResult {
+export async function validate(data: Record<string, any>, rules: Rules): Promise<ValidationResult> {
   const errors: Record<string, string[]> = {}
 
   for (const field in rules) {
-    const value = data[field] ?? ""
+    const value = getNestedValue(data, field) ?? ""
     const fieldRules = rules[field].split("|")
 
     for (const rule of fieldRules) {
@@ -124,19 +146,19 @@ export function validate(data: Record<string, any>, rules: Rules): ValidationRes
 
         // === RELATIONAL ===
         case "confirmed":
-          if (value !== data[`${field}_confirmation`]) {
+          if (value !== getNestedValue(data, `${field}_confirmation`)) {
             addError(errors, field, `${field} tidak sama dengan konfirmasi`)
           }
           break
 
         case "same":
-          if (value !== data[param!]) {
+          if (value !== getNestedValue(data, param!)) {
             addError(errors, field, `${field} harus sama dengan ${param}`)
           }
           break
 
         case "different":
-          if (value === data[param!]) {
+          if (value === getNestedValue(data, param!)) {
             addError(errors, field, `${field} harus berbeda dengan ${param}`)
           }
           break
@@ -152,6 +174,29 @@ export function validate(data: Record<string, any>, rules: Rules): ValidationRes
             addError(errors, field, `Regex rule untuk ${field} tidak valid`)
           }
           break
+
+        // === DATABASE VALIDATION ===
+        case "unique":
+        {
+          const [table, column, exceptId] = param!.split(",")
+          const query = db.table(table).where(column, value)
+          if (exceptId) query.whereNot("id", exceptId)
+          const existing = await query.first()
+          if (existing) {
+            addError(errors, field, `${field} sudah digunakan`)
+          }
+        }
+        break
+
+        case "exists":
+        {
+          const [table, column] = param!.split(",")
+          const existing = await db.table(table).where(column, value).first()
+          if (!existing) {
+            addError(errors, field, `${field} tidak ditemukan di ${table}`)
+          }
+        }
+        break
       }
     }
   }

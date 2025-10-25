@@ -10,6 +10,7 @@ export default async function UserSeeder() {
     await User.query().create({
         name: "Admin",
         email: "admin@example.com",
+        email_verification_at: new Date(),
         password: password
     });
 

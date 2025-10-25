@@ -20,8 +20,8 @@ export const Controller = (app: Elysia) => app.derive(({ query, body, status }) 
   // ===================================>
   // ## Validation request body
   // ===================================>
-  validation: (rules: Rules) => {
-      const result = validate(body as Record<string, any>, rules);
+  validation: async (rules: Rules) => {
+      const result = await validate(body as Record<string, any>, rules);
       
       if (!result.valid) {
           throw status(422, {
@@ -80,8 +80,8 @@ export const Controller = (app: Elysia) => app.derive(({ query, body, status }) 
   // ===================================>
   // ## Response success
   // ===================================>
-  responseSuccess: (data: any, message?: string) => {
-    throw status(201, {
+  responseSuccess: (data: any, message?: string, code?: 200 | 201) => {
+    throw status(code || 200, {
         message  :  message ?? "Success",
         data     :  data ?? [],
     })
@@ -104,15 +104,18 @@ export const Controller = (app: Elysia) => app.derive(({ query, body, status }) 
   // ===================================>
   // ## Upload file
   // ===================================>
-  uploadFile: async (file: File, folder = "uploads") => {
-      const dir = path.resolve(folder);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  uploadFile: async (file: File, folder = "uploads"): Promise<string> => {
+    const dir = path.resolve("storage", "public", folder);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const filePath = path.join(dir, file.name);
+    const fileName = `${Date.now().toString(36)}${Math.random().toString(36).substring(2, 18)}${path.extname(file.name).toLowerCase()}`;
+    const filePath = path.join(dir, fileName);
 
-      fs.writeFileSync(filePath, buffer);
-      return filePath;
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    fs.writeFileSync(filePath, buffer);
+
+    return `/${folder}/${fileName}`
   },
 
 
@@ -121,8 +124,8 @@ export const Controller = (app: Elysia) => app.derive(({ query, body, status }) 
   // ## Delete File
   // ==================================>
   deleteFile: (filePath: string) => {
-      if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
-      }
+    if (fs.existsSync(filePath)) { fs.unlinkSync(filePath); return true; }
+
+    return false;
   },
 }));

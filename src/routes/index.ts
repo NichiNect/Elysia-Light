@@ -14,8 +14,9 @@ export const routes = (app: Elysia) => app.group('/api', (route) => {
     
     route.use(AuthMiddleware)
     
-    route.get('/me', AuthController.me)
     route.post('/verify', AuthController.verify)
+    route.get('/me', AuthController.me)
+    route.post('/me/update', AuthController.update)
 
     api(route, "/users", UserController);
 

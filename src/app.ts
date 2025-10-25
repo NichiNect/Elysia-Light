@@ -4,13 +4,14 @@ import { Controller } from '@/utils/controller.utils'
 import { db } from "@/utils/db.utils"
 import { redis } from "@/utils/cache.utils"
 import { routes } from '@/routes'
+import { Storage } from '@/utils/storage'
 
 
 export const app  =  new Elysia()
     .use(CorsMiddleware)
+    .use(Storage)
     .use(Controller)
     .use(routes)
-    
 
 db.schema
 console.log(`💡 Database connected!`)

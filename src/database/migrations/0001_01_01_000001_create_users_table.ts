@@ -12,6 +12,7 @@ export default class AddUsersTable extends Migration
       table.string('name').notNullable()
       table.string('email').unique().notNullable()
       table.string('password')
+      table.string('image')
       table.timestamp('email_verification_at')
       table.timestamps(true, true)
     });
